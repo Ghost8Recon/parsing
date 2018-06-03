@@ -73,7 +73,6 @@ def get_product(html):
 
         except BaseException as e:
             print(e)
-            pass
 
 
 def get_product_categories(html):
@@ -270,24 +269,24 @@ def get_page_data(html, products_id, products, category_name):
                 available_for_order = 0
 
             price = re.sub("[^0-9.]", "", price)
-            data = {'name': product.get("name"),
-                    'category': 'Home/'+get_main_category(category_name)+'/'+(category_name.replace('/', '-')),
-                    'reference#': product.get("MFG"),
-                    'supplier_reference#': product.get("CDW"),
-                    'label_in_stock': 'In Stock',
-                    'quantity': quantity,
-                    'cost_price': price,
-                    'price_tax_excluded': str(round(float(price)*1.12, 2)),
-                    'img_url': img_url.replace("CDW//", "CDW/"),
-                    'features': all_specifications,
-                    'active': active,
-                    'description': description,
-                    'available_for_order': available_for_order
-                    }
-
             if price == '':
                 pass
             else:
+                data = {'name': product.get("name"),
+                        'category': 'Home/'+get_main_category(category_name)+'/'+(category_name.replace('/', '-')),
+                        'reference#': product.get("MFG"),
+                        'supplier_reference#': product.get("CDW"),
+                        'label_in_stock': 'In Stock',
+                        'quantity': quantity,
+                        'cost_price': price,
+                        'price_tax_excluded': str(round(float(price)*1.12, 2)),
+                        'img_url': img_url.replace("CDW//", "CDW/"),
+                        'features': all_specifications,
+                        'active': active,
+                        'description': description,
+                        'available_for_order': available_for_order
+                        }
+
                 write_csv(data, category_name, mod='add')
 
     except AttributeError:  # If category contains only one product the site makes redirect to this product-page. Parsing product-page
@@ -354,25 +353,24 @@ def get_page_data(html, products_id, products, category_name):
 
         price = re.sub("[^0-9.]", "", price)
 
-        data = {'name': product.get("name"),
-                'category': 'Home/'+get_main_category(category_name)+'/'+(category_name.replace('/', '-')),
-                'reference#': product.get("MFG"),
-                'supplier_reference#': product.get("CDW"),
-                'label_in_stock': 'In Stock',
-                'quantity': quantity,
-                'cost_price': price,
-                'price_tax_excluded': str(round(float(price)*1.12, 2)),
-                'img_url': img_url.replace("CDW//", "CDW/"),
-                'features': all_specifications,
-                'active': active,
-                'description': description,
-                'available_for_order': available_for_order
-                }
-
-        # print(data)
         if price == '':
             pass
+
         else:
+            data = {'name': product.get("name"),
+                    'category': 'Home/' + get_main_category(category_name) + '/' + (category_name.replace('/', '-')),
+                    'reference#': product.get("MFG"),
+                    'supplier_reference#': product.get("CDW"),
+                    'label_in_stock': 'In Stock',
+                    'quantity': quantity,
+                    'cost_price': price,
+                    'price_tax_excluded': str(round(float(price) * 1.12, 2)),
+                    'img_url': img_url.replace("CDW//", "CDW/"),
+                    'features': all_specifications,
+                    'active': active,
+                    'description': description,
+                    'available_for_order': available_for_order
+                    }
             write_csv(data, category_name, mod='add')
 
 
@@ -405,6 +403,7 @@ def main():
             url_gen = url + category_url
             total_pages = get_total_pages(get_html(url_gen))
             for i in range(1, total_pages + 1):
+                print(category[0], ': ', i, '/', total_pages)
                 time.sleep(0.2)
                 url_gen = url + category_url + page_part + str(i)
                 html = get_html(url_gen)
