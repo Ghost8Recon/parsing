@@ -22,7 +22,8 @@ def get_total_pages(html):
         pages = divs.find_all('a')[-2].get('href')
         total_pages = pages.split('=')[3]
 
-    except:
+    except BaseException as e:
+        print(e)
         total_pages = 1
 
     return int(total_pages)
@@ -51,7 +52,10 @@ def get_product(html):
 
         return products
 
-    except:  # If category contains only one product the site makes redirect to this product-page. Parsing product-page
+
+    except BaseException as e:
+        print(e)
+        # If category contains only one product the site makes redirect to this product-page. Parsing product-page
 
         try:
             codes = []
@@ -67,7 +71,8 @@ def get_product(html):
             product.update(dict({"name": divs.find('h1', id='primaryProductName').text.strip(), "MFG": codes[0], "CDW": codes[1]}))
             return [product]
 
-        except:
+        except BaseException as e:
+            print(e)
             pass
 
 
@@ -400,6 +405,7 @@ def main():
             url_gen = url + category_url
             total_pages = get_total_pages(get_html(url_gen))
             for i in range(1, total_pages + 1):
+                time.sleep(0.2)
                 url_gen = url + category_url + page_part + str(i)
                 html = get_html(url_gen)
                 products = get_product(html)
@@ -412,7 +418,8 @@ def main():
 
                 get_page_data(html, products_id, products, category[0])
 
-        except:
+        except BaseException as e:
+            print(e)
             continue
 
 
