@@ -255,6 +255,7 @@ def get_page_data(html, products_id, products, category_name):
                 description_url = 'https://www.cdw.ca/api/product/1/data/overview/' + id
                 description = get_json(description_url)
                 description = description["MarketText"]
+                description = description.replace('<br />', '').replace(';', ',')
 
             except:
                 description = ''
@@ -284,7 +285,7 @@ def get_page_data(html, products_id, products, category_name):
                         'img_url': img_url.replace("CDW//", "CDW/"),
                         'features': all_specifications,
                         'active': active,
-                        'description': description.replace(';', ','),
+                        'description': description,
                         'available_for_order': available_for_order
                         }
 
@@ -338,7 +339,7 @@ def get_page_data(html, products_id, products, category_name):
             description_url = 'https://www.cdw.ca/api/product/1/data/overview/' + products_id[0]
             description = get_json(description_url)
             description = description["MarketText"]
-            description = description.replace('<br/>', '')
+            description = description.replace('<br />', '').replace(';', ',')
 
         except:
             description = ''
@@ -370,7 +371,7 @@ def get_page_data(html, products_id, products, category_name):
                     'img_url': img_url.replace("CDW//", "CDW/"),
                     'features': all_specifications,
                     'active': active,
-                    'description': description.replace(';', ','),
+                    'description': description,
                     'available_for_order': available_for_order
                     }
             write_csv(data, category_name, mod='add')
