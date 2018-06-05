@@ -134,31 +134,31 @@ def get_main_category(string):
                          'Thermal Printers', 'Wide-Format Printers/Plotters']
     servers_server = ['KVM Switches, Consoles & Accessories', 'Server Accessories & IO Accelerators', 'Servers']
 
-    if 'Cable' in string[0]:
+    if 'Cable' in string:
         return 'Cables'
-    elif string[0] in computer_accessories:
+    elif string in computer_accessories:
         return 'Computer Accessories'
-    elif string[0] in computers:
+    elif string in computers:
         return 'Computers'
-    elif string[0] in data_storage_products:
+    elif string in data_storage_products:
         return 'Data Storage Products'
-    elif string[0] in electronics:
+    elif string in electronics:
         return 'Electronics'
-    elif string[0] in memories:
+    elif string in memories:
         return 'Memory'
-    elif string[0] in monitors_projectors:
+    elif string in monitors_projectors:
         return 'Monitors & Projectors'
-    elif string[0] in networking_products:
+    elif string in networking_products:
         return 'Networking Products'
-    elif string[0] in office_equipment:
+    elif string in office_equipment:
         return 'Office Equipment & Supplies'
-    elif string[0] in phones_video_conferencing:
+    elif string in phones_video_conferencing:
         return 'Phones & Video Conferencing'
-    elif string[0] in power_cooling_racks:
+    elif string in power_cooling_racks:
         return 'Power, Cooling & Racks'
-    elif string[0] in printers_scanners:
+    elif string in printers_scanners:
         return 'Printers, Scanners & Print Supplies'
-    elif string[0] in servers_server:
+    elif string in servers_server:
         return 'Servers & Server Management'
     else:
         return 'Computer Accessories'
@@ -169,7 +169,7 @@ def write_csv(data, category_name, mod):
         use_mod = 'a'
     else:
         use_mod = 'w'
-    with open('/parsing/all_data.csv', use_mod, newline='') as f:
+    with open('/parsing/all_data_general.csv', use_mod, newline='') as f:
         writer = csv.writer(f, delimiter=';')
         writer.writerow((data['name'],
                          data['reference#'],
@@ -246,7 +246,7 @@ def get_page_data(html, products_id, products, category_name):
                 for param in specifications["AttributeGroups"]:
                     attributes = param["Attributes"]
                     for attribute in attributes:
-                        all_specifications += '{0}:{1}:::{2}, '.format(attribute["Key"], attribute["Value"],
+                        all_specifications += '{0}:{1}::{2}, '.format(attribute["Key"], attribute["Value"],
                                                                        param["FolderName"])
 
             except:
@@ -272,8 +272,9 @@ def get_page_data(html, products_id, products, category_name):
             if price == '':
                 pass
             else:
-                data = {'name': product.get("name"),
-                        'category': 'Home/'+get_main_category(category_name)+'/'+(category_name.replace('/', '-')),
+                data = {'name': (product.get("name")).replace(';', ','),
+                        'category': 'Home/'+get_main_category(category_name)+'/'+(category_name.replace('/', '-'))+', '
+                                    + get_main_category(category_name)+'/'+(category_name.replace('/', '-')) + ', Home',
                         'reference#': product.get("MFG"),
                         'supplier_reference#': product.get("CDW"),
                         'label_in_stock': 'In Stock',
@@ -283,7 +284,7 @@ def get_page_data(html, products_id, products, category_name):
                         'img_url': img_url.replace("CDW//", "CDW/"),
                         'features': all_specifications,
                         'active': active,
-                        'description': description,
+                        'description': description.replace(';', ','),
                         'available_for_order': available_for_order
                         }
 
@@ -328,7 +329,7 @@ def get_page_data(html, products_id, products, category_name):
             for param in specifications["AttributeGroups"]:
                     attributes = param["Attributes"]
                     for attribute in attributes:
-                        all_specifications += '{0}:{1}:::{2}, '.format(attribute["Key"], attribute["Value"], param["FolderName"])
+                        all_specifications += '{0}:{1}::{2}, '.format(attribute["Key"], attribute["Value"], param["FolderName"])
 
         except:
             all_specifications = ''
@@ -357,8 +358,9 @@ def get_page_data(html, products_id, products, category_name):
             pass
 
         else:
-            data = {'name': product.get("name"),
-                    'category': 'Home/' + get_main_category(category_name) + '/' + (category_name.replace('/', '-')),
+            data = {'name': (product.get("name")).replace(';', ','),
+                    'category': 'Home/'+get_main_category(category_name)+'/'+(category_name.replace('/', '-'))+', '
+                                + get_main_category(category_name)+'/'+(category_name.replace('/', '-')) + ', Home',
                     'reference#': product.get("MFG"),
                     'supplier_reference#': product.get("CDW"),
                     'label_in_stock': 'In Stock',
@@ -368,7 +370,7 @@ def get_page_data(html, products_id, products, category_name):
                     'img_url': img_url.replace("CDW//", "CDW/"),
                     'features': all_specifications,
                     'active': active,
-                    'description': description,
+                    'description': description.replace(';', ','),
                     'available_for_order': available_for_order
                     }
             write_csv(data, category_name, mod='add')
