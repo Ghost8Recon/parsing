@@ -102,36 +102,47 @@ def get_main_category(string):
                             'Notebook Accessories', 'Notebook Carrying Cases & Accessories',
                             'Notebook Docks & Port Replicators', 'Signature Pads & Accessories', 'Tablet Accessories',
                             'Tools', 'Video Cards & Imaging', 'Webcams']
+
     computers = ['Desktop Computers', 'Notebook Computers', 'Point of Sale Computers', 'Tablets & Tablet PCs',
                  'Thin Clients', 'Workstations']
+
     data_storage_products = ['CD, DVD & Blu-Ray Drives', 'Disc Duplicators', 'Drive Arrays', 'Flash Memory',
                              'Floppy Disk Drives', 'Hard Drives', 'Interfaces / Controllers', 'Media & Accessories',
                              'Networked Attached Storage (NAS)', 'Storage Area Networking (SAN)',
                              'Tape Automation & Drives']
+
     electronics = ['2-Way Radios & Accessories', 'Audio/Stereo Equipment', 'Automation & Control Systems',
                    'Cell/Smart Phones & Accessories', 'Digital Cameras & Accessories', 'Drones & Accessories',
                    'GPS Devices & Accessories', 'Handheld Devices & Accessories', 'Headphones/Earphones & Accessories',
                    'Microphones & Accessories', 'MP3 Players & Accessories', 'Photographic Accessories',
                    'Speaker Systems & Accessories', 'Televisions & Video Equipment', 'Video Camcorders & Accessories',
                    'Virtual Reality & Accessories']
+
     memories = ['Cache Memory', 'Network Device Memory', 'Printer Memory', 'Server Memory', 'System Memory (RAM)']
+
     monitors_projectors = ['CRT Monitors', 'Interactive Whiteboards & Accessories', 'Large-Format Displays',
                            'LCD / LED Monitors', 'Medical Displays & Accessories', 'Monitor, Display & TV Accessories',
                            'Projector Accessories', 'Projectors', 'Touchscreen Displays & Accessories']
+
     networking_products = ['Communication Boards', 'Ethernet Switches', 'Modems', 'Network Interface Adapters (NIC)',
                            'Network Optimization Appliances', 'Network Security', 'Network Test Equipment',
                            'PBX/Multi-User Telephony Systems', 'Routers', 'Wireless Networking']
+
     office_equipment = ['Books', 'Calculators & Accessories', 'Cleaning Supplies', 'Furniture', 'Mounts & Carts',
                         'Office Supplies', 'Paper Shredders & Accessories', 'Toys', 'Typewriters/Word Processors']
+
     phones_video_conferencing = ['Headsets', 'Phone System Architecture', 'Phones', 'Video Conferencing']
+
     power_cooling_racks = ['Batteries', 'Power Adapters', 'Power Inverters', 'Rack Mounting Equipment',
                            'Surge Suppressors', 'UPS/Battery Backup Products']
+
     printers_scanners = ['3D Printers & Accessories', 'Barcode & Handheld Scanners', 'Business Inkjet Printers',
                          'CD/DVD Media Printers', 'Copy Machines & Accessories', 'Document Scanners',
                          'Dot-Matrix Printers', 'FAX Machines', 'Ink, Toner & Print Supplies',
                          'Inkjet & Photo Printers', 'Laser Printers', 'Multifunction Printers', 'Print Servers',
                          'Printer & Scanner Accessories', 'Printer Hard Drives', 'Printer Paper & Media',
                          'Thermal Printers', 'Wide-Format Printers/Plotters']
+
     servers_server = ['KVM Switches, Consoles & Accessories', 'Server Accessories & IO Accelerators', 'Servers']
 
     if 'Cable' in string:
@@ -155,9 +166,9 @@ def get_main_category(string):
     elif string in phones_video_conferencing:
         return 'Phones & Video Conferencing'
     elif string in power_cooling_racks:
-        return 'Power, Cooling & Racks'
+        return 'Power & Cooling & Racks'
     elif string in printers_scanners:
-        return 'Printers, Scanners & Print Supplies'
+        return 'Printers & Scanners & Print Supplies'
     elif string in servers_server:
         return 'Servers & Server Management'
     else:
