@@ -257,8 +257,9 @@ def get_page_data(html, products_id, products, category_name):
                 for param in specifications["AttributeGroups"]:
                     attributes = param["Attributes"]
                     for attribute in attributes:
-                        all_specifications += '{0}:{1}::{2}, '.format(attribute["Key"], attribute["Value"],
-                                                                       param["FolderName"])
+                        all_specifications += '{0}:{1}::{2}, '.format(attribute["Key"].replace('#', '№'),
+                                                                      re.sub("[=<>]", "", attribute["Value"].replace('#', '№')),
+                                                                      param["FolderName"])
 
             except:
                 all_specifications = ''
@@ -281,26 +282,29 @@ def get_page_data(html, products_id, products, category_name):
                 available_for_order = 0
 
             price = re.sub("[^0-9.]", "", price)
-            if price == '':
-                pass
-            else:
-                data = {'name': (product.get("name")).replace(';', ','),
-                        'category': 'Home/'+get_main_category(category_name)+'/'+(category_name.replace('/', '-'))+', '
-                                    + get_main_category(category_name)+'/'+(category_name.replace('/', '-')) + ', Home',
-                        'reference#': product.get("MFG"),
-                        'supplier_reference#': product.get("CDW"),
-                        'label_in_stock': 'In Stock',
-                        'quantity': quantity,
-                        'cost_price': price,
-                        'price_tax_excluded': str(round(float(price)*1.12, 2)),
-                        'img_url': img_url.replace("CDW//", "CDW/"),
-                        'features': all_specifications,
-                        'active': active,
-                        'description': description,
-                        'available_for_order': available_for_order
-                        }
+            try:
+                if price == '':
+                    pass
+                else:
+                    data = {'name': re.sub("[=<>]", "", product.get("name").replace(';', ',').replace('#', '№')),
+                            'category': 'Home/'+get_main_category(category_name)+'/'+(category_name.replace('/', '-'))+', '
+                                        + get_main_category(category_name)+'/'+(category_name.replace('/', '-')) + ', Home',
+                            'reference#': product.get("MFG").replace('=', ''),
+                            'supplier_reference#': product.get("CDW"),
+                            'label_in_stock': 'In Stock',
+                            'quantity': quantity,
+                            'cost_price': price,
+                            'price_tax_excluded': str(round(float(price)*1.12, 2)),
+                            'img_url': img_url.replace("CDW//", "CDW/"),
+                            'features': all_specifications,
+                            'active': active,
+                            'description': description,
+                            'available_for_order': available_for_order
+                            }
 
-                write_csv(data, category_name, mod='add')
+                    write_csv(data, category_name, mod='add')
+            except:
+                pass
 
     except AttributeError:  # If category contains only one product the site makes redirect to this product-page. Parsing product-page
         base_url = "https://www.cdw.ca/product/any/"
@@ -341,7 +345,9 @@ def get_page_data(html, products_id, products, category_name):
             for param in specifications["AttributeGroups"]:
                     attributes = param["Attributes"]
                     for attribute in attributes:
-                        all_specifications += '{0}:{1}::{2}, '.format(attribute["Key"], attribute["Value"], param["FolderName"])
+                        all_specifications += '{0}:{1}::{2}, '.format(attribute["Key"].replace('#', '№'),
+                                                                      re.sub("[=<>]", "", attribute["Value"].replace('#', '№')),
+                                                                      param["FolderName"])
 
         except:
             all_specifications = ''
@@ -370,10 +376,10 @@ def get_page_data(html, products_id, products, category_name):
             pass
 
         else:
-            data = {'name': (product.get("name")).replace(';', ','),
+            data = {'name': re.sub("[=<>]", "", product.get("name").replace(';', ',').replace('#', '№')),
                     'category': 'Home/'+get_main_category(category_name)+'/'+(category_name.replace('/', '-'))+', '
                                 + get_main_category(category_name)+'/'+(category_name.replace('/', '-')) + ', Home',
-                    'reference#': product.get("MFG"),
+                    'reference#': product.get("MFG").replace('=', ''),
                     'supplier_reference#': product.get("CDW"),
                     'label_in_stock': 'In Stock',
                     'quantity': quantity,
