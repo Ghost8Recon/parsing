@@ -1,10 +1,10 @@
 import csv
 
-with open('C:/work/all_data_general_1.csv', 'r') as csvfile:
+with open('/parsing/all_data_general_3.csv', 'r') as csvfile:
     spamreader = csv.reader(csvfile, delimiter=';')
     changed_str = ''
-    for string in spamreader:
-        print(string)
+    for page, string in enumerate(spamreader):
+        print(page, '...')
         changed_attr = []
         try:
             group = string[8].split(',')
@@ -50,8 +50,8 @@ with open('C:/work/all_data_general_1.csv', 'r') as csvfile:
             string.pop(8)
 
             string.insert(8, ', '.join(v for v in final))
-            print(string)
-            with open('C:/work/all_data_general_1(edit).csv', 'a', newline='') as f:
+            # print(string)
+            with open('/parsing/all_data_general_3(edit).csv', 'a', newline='') as f:
                 writer = csv.writer(f, delimiter=';')
                 writer.writerow(string)
         except BaseException as e:
